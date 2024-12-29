@@ -10,9 +10,10 @@ This script helps you remove all packages from your system that are not listed i
 
 **Note:**
 
-* This script **is not** guaranteed to delete existing configuration files, only the packages themselves. If you want to delete configuration files, perform a dry run (see [Optional Arguments](#optional-arguments) for more information) and check the documentation for all affected packages.
+* This script **is not** guaranteed to delete existing configuration files, only the packages themselves. If you want to delete configuration files, perform a dry run (see [Optional Arguments](#optional-arguments) for more information) and check the documentation for each affected package.
 
-* ⚠️ **Use with caution:** Always back up your system before running this script. Removing packages can have unintended consequences, such as:
+* ⚠️ **Use with caution:** Always back up your system before running this script. Removing packages may lead to unintended consequences, such as:
+
   * Removing critical system libraries.
   * Breaking dependencies for essential applications.
   * Uninstalling important security updates.
@@ -55,11 +56,11 @@ This script helps you remove all packages from your system that are not listed i
 
 ## Base Packages File Creation
 
-You can create the file on your current system or on a "Clean" install, depending on your needs.
+You can create the file on your current system or on a "Clean" install, depending on your needs. I **strongly** suggest making sure that the system is in a desirable state (i.e. stable and with no unnecessary packages).
 
 * Suggestion: Perform a "minimal" install on a virtual machine, run the appropriate command, and export the result so you get a clean base file.
 
-The included `pkgs.base.archlinux` file corresponds to a "barebones" installation of Arch Linux.
+The included `pkgs.base.archlinux` file corresponds to my own "barebones" installation of Arch Linux, but I can not guarantee that this setup will work for most users.
 
 ### Pacman (Arch Linux, Manjaro, EndeavourOS)
 
