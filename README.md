@@ -1,3 +1,9 @@
+**Available Languages**:
+
+[![English](https://raw.githubusercontent.com/arjfabian/arjfabian/main/assets/icons/flags/gb.png)](README.md)
+[![Español](https://raw.githubusercontent.com/arjfabian/arjfabian/main/assets/icons/flags/es.png)](README_es.md)
+[![Português](https://raw.githubusercontent.com/arjfabian/arjfabian/main/assets/icons/flags/pt.png)](README_pt.md)
+
 # Linux Cleanup
 
 This script helps you remove all packages from your system that are not listed in a provided "base" package list. This can be useful for:
@@ -31,15 +37,16 @@ This script helps you remove all packages from your system that are not listed i
 3. **Run the script:**
 
     - Execute the script from the command line:
+
        ```bash
-       ./linux-cleanup.sh 
+       ./linux-cleanup.sh
        ```
 
 ### Optional Arguments
 
 * `--dry-run`: Perform a dry run. Displays the list of packages that would be removed without actually removing them.
 
-* `--base-file`: Specifies the path to the base packages file (default: `pkgs.base`). 
+* `--base-file`: Specifies the path to the base packages file (default: `pkgs.base`).
 
 ## Supported Package Managers
 
@@ -52,13 +59,13 @@ This script helps you remove all packages from your system that are not listed i
 * Pkg (Alpine Linux)
 * Portage (Gentoo)
 * YUM (CentOS, Red Hat)
-* Zypper (openSUSE and SUSE Linux Enterprise)
+* Zypper (openSUSE, SUSE Linux Enterprise)
 
 ## Base Packages File Creation
 
 You can create the file on your current system or on a "Clean" install, depending on your needs. I **strongly** suggest making sure that the system is in a desirable state (i.e. stable and with no unnecessary packages).
 
-* Suggestion: Perform a "minimal" install on a virtual machine, run the appropriate command, and export the result so you get a clean base file.
+* **Suggestion:** Perform a "minimal" install on a virtual machine, run the appropriate command, and export the result so you get a clean base file.
 
 The included `pkgs.base.archlinux` file corresponds to my own "barebones" installation of Arch Linux, but I can not guarantee that this setup will work for most users.
 
@@ -77,7 +84,7 @@ dpkg-query -W -f='${binary:Package}\n' | sort > pkgs.base
 ### DNF (Fedora, Red Hat, CentOS 8+)
 
 ```bash
-dnf list installed | awk '{print $1}' | tail -n +2 | sort > pkgs.base 
+dnf list installed | awk '{print $1}' | tail -n +2 | sort > pkgs.base
 ```
 
 ### Guix
@@ -113,10 +120,10 @@ qlist -I | sort > pkgs.base
 ### YUM (CentOS, Red Hat)
 
 ```bash
-yum list installed | awk '{print $1}' | tail -n +2 | sort > pkgs.base 
+yum list installed | awk '{print $1}' | tail -n +2 | sort > pkgs.base
 ```
 
-### Zypper (openSUSE and SUSE Linux Enterprise)
+### Zypper (openSUSE, SUSE Linux Enterprise)
 
 ```bash
 zypper se --installed-only | awk '{print $2}' | sort > pkgs.base
