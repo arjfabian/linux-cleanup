@@ -1,18 +1,130 @@
 # Linux Cleanup
 
-This is a collection of scripts that delete all packages except those specified in the `pkgs.base` file.
+This script helps you remove all packages from your system that are not listed in a provided "base" package list. This can be useful for:
 
-**Note**: This does NOT delete existing configuration files, only the packages.
+* **System cleanup:** Removing unnecessary packages to free up disk space.
 
-## How to use
+* **System hardening:** Reducing the attack surface by removing potentially vulnerable software.
 
-Download the appropriate script and run it in the same directory as your `pkgs.base`.
-The package list included is a sample based on a BlackArch minimal installation and can be replaced by any "barebones" package list of your choice.
-If you want to generate a "base" package list, run the appropriate command for your distribution:
+* **Creating a minimal system:** Maintaining a clean and minimal system with only essential packages.
 
-```
+**Note:**
+
+* This script **is not** guaranteed to delete existing configuration files, only the packages themselves. If you want to delete configuration files, perform a dry run (see [Optional Arguments](#optional-arguments) for more information) and check the documentation for all affected packages.
+
+* ⚠️ **Use with caution:** Always back up your system before running this script. Removing packages can have unintended consequences, such as:
+  * Removing critical system libraries.
+  * Breaking dependencies for essential applications.
+  * Uninstalling important security updates.
+
+## How to Use
+
+1. **Download the script:** Save the script to your local machine.
+
+2. **Create a `pkgs.base` file:**
+
+    - **Automatic generation:** Refer to the [Base Packages File Creation](#base-packages-file-creation) for more information regarding the supported package managers.
+
+    - **Manual creation (for advanced users):** Create a text file named `pkgs.base` containing a list of essential packages for your system.
+
+3. **Run the script:**
+
+    - Execute the script from the command line:
+       ```bash
+       ./linux-cleanup.sh 
+       ```
+
+### Optional Arguments
+
+* `--dry-run`: Perform a dry run. Displays the list of packages that would be removed without actually removing them.
+
+* `--base-file`: Specifies the path to the base packages file (default: `pkgs.base`). 
+
+## Supported Package Managers
+
+* APT (Debian, Ubuntu, Linux Mint, Pop!_OS)
+* DNF (Fedora, Red Hat, CentOS 8+)
+* Guix
+* Homebrew (macOS)
+* Nix
+* Pacman (Arch Linux, Manjaro, EndeavourOS)
+* Pkg (Alpine Linux)
+* Portage (Gentoo)
+* YUM (CentOS, Red Hat)
+* Zypper (openSUSE and SUSE Linux Enterprise)
+
+## Base Packages File Creation
+
+You can create the file on your current system or on a "Clean" install, depending on your needs.
+
+* Suggestion: Perform a "minimal" install on a virtual machine, run the appropriate command, and export the result so you get a clean base file.
+
+The included `pkgs.base.archlinux` file corresponds to a "barebones" installation of Arch Linux.
+
+### Pacman (Arch Linux, Manjaro, EndeavourOS)
+
+```bash
 pacman -Q | awk '{ print $1 }' > pkgs.base
-dpkg --get-selections | grep -v deinstall | awk '{ print $1 }'
 ```
 
-Any comments are welcome.
+### APT (Debian, Ubuntu, Linux Mint, Pop!_OS)
+
+```bash
+dpkg-query -W -f='${binary:Package}\n' | sort > pkgs.base
+```
+
+### DNF (Fedora, Red Hat, CentOS 8+)
+
+```bash
+dnf list installed | awk '{print $1}' | tail -n +2 | sort > pkgs.base 
+```
+
+### Guix
+
+```bash
+guix package list | awk '{print $1}' | sort > pkgs.base
+```
+
+### Homebrew (macOS)
+
+```bash
+brew list | sort > pkgs.base
+```
+
+### Nix
+
+```bash
+nix-env -qa --out-fmt '{ name, version }' | jq -r '.name' | sort > pkgs.base
+```
+
+### Pkg (Alpine Linux)
+
+```bash
+apk info -v | awk '{print $1}' | sort > pkgs.base
+```
+
+### Portage (Gentoo)
+
+```bash
+qlist -I | sort > pkgs.base
+```
+
+### YUM (CentOS, Red Hat)
+
+```bash
+yum list installed | awk '{print $1}' | tail -n +2 | sort > pkgs.base 
+```
+
+### Zypper (openSUSE and SUSE Linux Enterprise)
+
+```bash
+zypper se --installed-only | awk '{print $2}' | sort > pkgs.base
+```
+
+## Disclaimer
+
+This script is provided as-is without any warranty. Use it at your own risk. The author is not responsible for any damage caused by the use of this script.
+
+## Contributions
+
+Contributions and suggestions are welcome. Please feel free to fork and improve this script.
