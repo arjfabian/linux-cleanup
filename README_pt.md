@@ -59,7 +59,7 @@ Este script ajuda você a remover todos os pacotes do seu sistema que não estã
 * Pkg (Alpine Linux)
 * Portage (Gentoo)
 * YUM (CentOS, Red Hat)
-* Zypper (openSUSE and SUSE Linux Enterprise)
+* Zypper (openSUSE, SUSE Linux Enterprise)
 
 ## Criação do arquivo de pacotes base
 
@@ -123,7 +123,7 @@ qlist -I | sort > pkgs.base
 yum list installed | awk '{print $1}' | tail -n +2 | sort > pkgs.base 
 ```
 
-### Zypper (openSUSE and SUSE Linux Enterprise)
+### Zypper (openSUSE, SUSE Linux Enterprise)
 
 ```bash
 zypper se --installed-only | awk '{print $2}' | sort > pkgs.base
